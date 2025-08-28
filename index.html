@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HouseWarming</title>
+    <link rel="icon" href="./img/image.png" />
+
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .lang-toggle button {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 1.5rem;
+        background: #ff9800;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .lang-toggle button:hover {
+        transform: scale(1.1);
+        background: #e68900;
+      }
+      .text-header {
+        transition: opacity 0.5s ease;
+        text-align: center;
+        font-size: 1.1rem;
+        padding: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header></header>
+
+    <div class="container">
+      <h3 id="invite-text" class="text-header" data-i18n="heading"></h3>
+
+      <div class="card">
+        <img src="./img/image.png" data-i18n="imageAlt" alt="House image" />
+      </div>
+
+      <div class="lang-toggle">
+        <button id="lang-btn"></button>
+      </div>
+
+      <div class="card">
+        <img src="./img/Cows.jpg" data-i18n="imageAlt" alt="House image" />
+      </div>
+
+      <h3 id="invite-text" class="text-header" data-i18n="inviteText"></h3>
+      <div class="date-time-container1">
+        <div class="date-time" data-i18n="time"></div>
+      </div>
+
+      <div class="map-container" onclick="openGoogleMap()">
+        <div class="map-img-mid">
+          <img src="./img/map.png" data-i18n="mapAlt" alt="Map" />
+        </div>
+
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3888.174273055235!2d77.5946!3d12.9716!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin"
+          allowfullscreen=""
+          loading="lazy"
+        ></iframe>
+      </div>
+
+      <h3 id="invite-text" class="text-header" data-i18n="tnx"></h3>
+    </div>
+
+    <script>
+      function openGoogleMap() {
+        const mapUrl = `https://maps.app.goo.gl/gza9kmqkgXgVbAWf8?g_st=aw`;
+        window.open(mapUrl, "_blank");
+      }
+
+      const translations = {
+        en: {
+          inviteText:
+            "It’s time to warm our new house with your wonderful company! We invite you to a housewarming celebration and look forward to seeing you soon.",
+          imageAlt: "House image",
+          mapAlt: "Map",
+          langBtn: "தமிழ்",
+          tnx: "Thanks!!!",
+          time: "Save the Day, 4th-Sep-2025 4.30-6 AM",
+          heading: "HouseWarming Invitation",
+        },
+        ta: {
+          inviteText:
+            "எங்களின் புதிய இல்லத்தின் இல்லத்திறுவிழாவிற்கு உங்களையும் உங்கள் குடும்பத்தினரையும் அன்புடன் அழைக்கிறோம்",
+          imageAlt: "வீட்டு படம்",
+          mapAlt: "வரைபடம்",
+          langBtn: " For English",
+          tnx: "நன்றி!!!",
+          time: "ஆவணி 19, 2025 காலை 4:30 மணி முதல் 6:00 மணி வரை",
+          heading: "புதுமனை புகுவிழா அழைப்பிதழ்",
+        },
+      };
+
+      let currentLang = "en";
+      const langBtn = document.getElementById("lang-btn");
+
+      function updateLanguage(lang) {
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          if (translations[lang][key]) {
+            // Fade out
+            el.style.opacity = 0;
+            setTimeout(() => {
+              if (el.tagName === "IMG") {
+                el.alt = translations[lang][key];
+              } else {
+                el.textContent = translations[lang][key];
+              }
+              // Fade in
+              el.style.opacity = 1;
+            }, 300);
+          }
+        });
+
+        langBtn.textContent = translations[lang].langBtn;
+      }
+
+      // Initial load
+      updateLanguage(currentLang);
+
+      // Toggle language on click
+      langBtn.addEventListener("click", () => {
+        currentLang = currentLang === "en" ? "ta" : "en";
+        updateLanguage(currentLang);
+      });
+    </script>
+  </body>
+</html>
